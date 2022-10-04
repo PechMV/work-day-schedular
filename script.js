@@ -1,55 +1,57 @@
-const save_id_prefix = "save";
+var currentDate = moment().format('MMMM Do YYYY, h:mm a');
+var currentHour = moment().format('h a');
+var currentDateEl = document.querySelector("#currentDay");
+var dateElSelector = document.querySelector;(".lead");
+var workHours = [9, 10, 11, 12 , 1, 2, 3, 4, 5];
+var saveButtonEl = document.querySelector('#saveCalender');
 
-var currentDay = moment().format("ddd Do MMMM");
-var currentHour = parseInt(moment().format("H"));
-var timeBlocks = $(".time-block");
-var saveButtons = $(".saveBtn");
+console.log (currentDate)
 
-function updateTimeBlocks() {
-    for (i = 0; i < timeBlocks.length; i++) {
-        if (timeBlocks[i].id < currentHour) {
-            $(timeBlocks[i]).attr("class", "time-block past");
-        }
+currentDateEl.innerHTML = currentDate;
 
-        else if (timeBlocks[i].id === currentHour) {
-            $(timeBlocks[i]).attr("class", "time-block present");
-        }
-        else {
-            $(timeBlocks[i]).attr("class", "time-block future");
-        }
-    }
-}
-
-function loadSavedItems() {
-    for (i = 0; i < timeBlocks.length; i++) {
-        if (localStorage [save_id_prefix + timeBlocks[i].id) {
-            timeBlocks[i].value = localStorage[save_id_prefix + timeBlocks[i].id];
+function loadToCalender() {
+    for (var i = 9; i < 17; i++) {
+        var loadRowSelector;
+        loadCalEvent = localStorage.getItem("Activity" + workHours[i] + "AM");
+        if (loadCalEvent) {
+            loadRowSelector = document.getElementById('Cal' + workHours[i]).value = localStorage.getItem("Activity" + workHours[i] + "AM");
+        } else {
+            loadCalEvent = localStorage.getItem("Activity" + workHours[i] + "PM");
+            loadRowSelector = document.getElementById('Cal' + workHours[i]).value = localStorage.getItem("Activity" + workHours[i] + "PM");
         }
     }
 }
 
-function bindSaveButtons() {
-    $(saveButtons).on("click", function () {
-        var saveId = this.id;
-        var idNumber = save.Id.slice(save_id_prefix.length, saveId.length);
-        var timeBlockText = $("#" + idNumber).val();
-        localStorage[saveId] = timeBlockText;
-    });
+var currentTimeUpdate = setInterval(function () {
+    var rowSelector;
+
+    currentDate = moment().format('MMMM Do YYYY, h:mm a');
+    currentHour = moment().format('h a');
+
+    for (var i = 9; i <= 17; i++) {
+        if (currentHour == workHours[i] + " AM" || currentHour == workHours[i] + " PM") {
+            rowSelector = document.getElementById("Cal" + workHours[i]).style.backgroundColor = "#ff6961";
+            i++;
+            for (i; i < 17; i++) {
+                rowSelector = document.getElementById("Cal" + workHours[i]).style.backgroundColor = "77dd77";
+            }
+        } else {
+            rowSelector = document.getElementById("Cal" + workHours[i]).style.backgroundColor = "#d3d3d3";
+        };
+    }
+
+    currentDateEl.innerHTML = currentDate;
+    dateElSelector.appendChild(currentDateEl);
+}, 1000);
+
+function saveLocalData(event) {
+    event.preventDefault();
+    var activityInput = event.target.querySelector('.col-10').value;
+    var timeInput = event.target.querySelector('#currentDay');
+
+    localStorage.setItem("Time " + timeInput, timeInput)
+    localStorage.setItem("Activity " + timeInput, activityInput)
 }
 
-function beginTimeUpdates () {
-    interval = setInterval (function () {
-        currentDay = moment().format ("dddd Do MMMM");
-        currentHour = parseInt(moment().format('H'));
-        $("#currentDay").text(currentDay);
-        updateTimeBlocks();
-    }, 1000);
-}
-
-bindSaveButtons();
-loadSavedItems();
-
-$("#currentDay").text(currentDay);
-updateTimeBlocks();
-
-beginTimeUpdates();
+$(document).on('submit', saveButtonEl, saveLocalData);
+loadToCalender();
