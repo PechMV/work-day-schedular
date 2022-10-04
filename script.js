@@ -25,8 +25,8 @@ function loadToCalender() {
 var currentTimeUpdate = setInterval(function () {
     var rowSelector;
 
-    currentDate = moment().format('MMMM Do YYYY, h:mm a');
-    currentHour = moment().format('h a');
+    currentDate = moment().format('dddd, MMMM Do, YYYY, h:mm A');
+    currentHour = moment().format('H');
 
     for (var i = 9; i <= 17; i++) {
         if (currentHour == workHours[i] + " AM" || currentHour == workHours[i] + " PM") {
