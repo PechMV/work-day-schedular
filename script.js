@@ -1,4 +1,4 @@
-var currentDate = moment().format('MMMM Do YYYY, h:mm a');
+var currentDate = moment().format('dddd, MMMM Do, YYYY h:mm A');
 var currentHour = moment().format('h a');
 var currentDateEl = document.querySelector("#currentDay");
 var dateElSelector = document.querySelector;(".lead");
